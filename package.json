@@ -1,12 +1,12 @@
 {
-  "name": "reach-ui",
+  "name": "@palmetto/reach-ui",
   "description": "The accessible foundation of your React apps and design systems",
   "private": true,
   "author": "React Training <hello@reacttraining.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reach/reach-ui.git"
+    "url": "git+https://github.com/juanfabrega/reach-ui"
   },
   "scripts": {
     "start": "start-storybook -p 9001 -c .storybook --ci",
