@@ -9,7 +9,12 @@ jobs:
     name: Release
     if: github.repository == 'reach/reach-ui'
     runs-on: ubuntu-latest
-
+    permissions:
+      actions: write
+      contents: write
+      packages: write
+      id-token: write
+      
     strategy:
       matrix:
         node-version: [14.x]
@@ -43,5 +48,18 @@ jobs:
       - run: echo "Publishing to npm..."
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > "$HOME/.npmrc"
 
-      - name: Publish Packages
+      - name: Publish Packages to NPM
         run: npx lerna publish from-git --yes --pre-dist-tag next
+        
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com/
+          scope: '@palmetto'
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: yarn publish
